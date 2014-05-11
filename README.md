@@ -1,12 +1,15 @@
-# Herald
+[![Build Status](https://travis-ci.org/chubarovNick/thunderer.svg?branch=master)](https://travis-ci.org/chubarovNick/thunderer)
+[![Code Climate](https://codeclimate.com/github/chubarovNick/thunderer.png)](https://codeclimate.com/github/chubarovNick/thunderer)
+[![Dependency Status](https://gemnasium.com/chubarovNick/thunderer.svg)](https://gemnasium.com/chubarovNick/thunderer)
+# Thunderer
 
-TODO: Write a gem description
+Thunderer is gem for publishing messages through [Faye](http://faye.jcoglan.com/). It allows you to easily provide real-time updates through an open socket without tying
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'herald'
+    gem 'thunderer'
 
 And then execute:
 
@@ -14,7 +17,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install herald
+    $ gem install thunderer
 
 ## Usage
 
@@ -22,7 +25,7 @@ TODO: Write usage instructions here
 
 ## Contributing
 
-1. Fork it ( http://github.com/<my-github-username>/herald/fork )
+1. Fork it ( http://github.com/<my-github-username>/thunderer/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
