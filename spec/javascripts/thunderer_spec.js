@@ -1,7 +1,16 @@
 describe('Thunderer', function () {
   var doc;
   beforeEach(function () {
-    Faye = {};
+    Faye = {
+      Client: function () {
+        return {
+          addExtension: function () {
+          }
+        }
+
+      }
+
+    };
     doc = {};
   });
 
@@ -110,8 +119,11 @@ describe('Thunderer', function () {
   });
 
   it("adds fayeCallback when client and server aren't available", function() {
-    Thunderer.faye("callback");
-    expect(Thunderer.fayeCallbacks[0]).toEqual("callback");
+    Thunderer.faye(function () {
+      return 'callback';
+    });
+    expect(Thunderer.fayeCallbacks[0]).toEqual(jasmine.any(Function));
+    expect(Thunderer.fayeCallbacks[0]()).toEqual('callback')
   });
 
 
