@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/chubarovNick/thunderer.svg?branch=master)](https://travis-ci.org/chubarovNick/thunderer)
-[![Code Climate](https://codeclimate.com/github/chubarovNick/thunderer.png)](https://codeclimate.com/github/chubarovNick/thunderer)
+[![Code Climate](https://codeclimate.com/github/chubarovNick/thunderer/badges/gpa.svg)](https://codeclimate.com/github/chubarovNick/thunderer)
 [![Dependency Status](https://gemnasium.com/chubarovNick/thunderer.svg)](https://gemnasium.com/chubarovNick/thunderer)
+[![Test Coverage](https://codeclimate.com/github/chubarovNick/thunderer/badges/coverage.svg)](https://codeclimate.com/github/chubarovNick/thunderer)
 # Thunderer
 
 Thunderer is gem for publishing messages through [Faye](http://faye.jcoglan.com/). It allows you to easily provide real-time updates through an open socket without tying

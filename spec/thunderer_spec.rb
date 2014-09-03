@@ -71,7 +71,7 @@ describe Thunderer do
     Thunderer.publish_message(message)
   end
 
-  
+
   it "raises an exception if no server is specified when calling publish_message" do
     lambda {
       Thunderer.publish_message("foo")
@@ -91,18 +91,18 @@ describe Thunderer do
   it "says signature has expired when time passed in is greater than expiration" do
     Thunderer.config[:signature_expiration] = 30*60
     time = Thunderer.subscription[:timestamp] - 31*60*1000
-    Thunderer.signature_expired?(time).should be_true
+    Thunderer.signature_expired?(time).should be(true)
   end
 
   it "says signature has not expired when time passed in is less than expiration" do
     Thunderer.config[:signature_expiration] = 30*60
     time = Thunderer.subscription[:timestamp] - 29*60*1000
-    Thunderer.signature_expired?(time).should be_false
+    Thunderer.signature_expired?(time).should be(false)
   end
 
   it "says signature has not expired when expiration is nil" do
     Thunderer.config[:signature_expiration] = nil
-    Thunderer.signature_expired?(0).should be_false
+    Thunderer.signature_expired?(0).should be(nil)
   end
 
 end
