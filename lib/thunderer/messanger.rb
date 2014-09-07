@@ -16,12 +16,12 @@ module Thunderer
         @config['use_ssl'] = uri.scheme == 'https'
       end
 
-      def post message
+      def post( message )
         raise ConfigurationError if not_configured?
 
         form = build_form
         form.set_form_data(:message => message.to_json)
-        protocol.start {|h| h.request(form)}
+        protocol.start { |h| h.request(form) }
       end
 
       private

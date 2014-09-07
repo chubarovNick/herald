@@ -13,16 +13,40 @@ describe Thunderer::Messanger do
     expect(messanger.config['use_ssl']).to eq(nil)
   end
 
-  context 'with default config' do
+  describe '#post' do
+    subject { messanger.post(message) }
 
-    it 'should raise error when you try post message' do
-      message = double(:message)
-      expect {
-        messanger.post(message)
-      }.to raise_error Thunderer::Messanger::ConfigurationError
+    context 'with default config' do
+      let(:message) { double(:message) }
+
+      specify do
+        expect { subject }.to raise_error Thunderer::Messanger::ConfigurationError
+      end
+
     end
 
+    context 'with correct config' do
+      before { Thunderer::Messanger.configure('http://localhost:3000') }
+      let(:http_form) { double(:form) }
+      let(:http) { double(:http) }
+      let(:message) { 'Hello world' }
+      before { allow(Net::HTTP::Post).to receive(:new).with('/').and_return(http_form) }
+      before { allow(Net::HTTP).to receive(:new).with('localhost', 3000).and_return(http) }
+      before { allow(http).to receive(:use_ssl=) }
+
+
+      specify do
+        expect(http_form).to receive(:set_form_data).with(message: message.to_json)
+        expect(http).to receive(:start).and_yield(http)
+        expect(http).to receive(:request).with(http_form).and_return(:result)
+        expect(subject).to eq(:result)
+      end
+
+    end
+
+
   end
+
 
   describe '#configure' do
 
