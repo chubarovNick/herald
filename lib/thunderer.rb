@@ -1,10 +1,10 @@
-require "thunderer/version"
+require 'thunderer/version'
 require 'thunderer/parser'
 require 'thunderer/messanger'
 require 'thunderer/faye_extension'
-require "digest/sha1"
+require 'digest/sha1'
 require 'yaml'
-require "thunderer/engine" if defined? Rails
+require 'thunderer/engine' if defined? Rails
 
 module Thunderer
   class Error < StandardError; end
@@ -32,7 +32,7 @@ module Thunderer
     end
 
     def publish_message(message)
-      raise Error, "No server specified, ensure private_pub.yml was loaded properly." unless config[:server]
+      raise Error, 'No server specified, ensure thunderer.yml was loaded properly.' unless config[:server]
       url = URI.parse(config[:server])
       messanger.post(message)
     end

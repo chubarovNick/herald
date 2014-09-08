@@ -14,7 +14,7 @@ module Thunderer
     # options.
     def subscribe_to(channel)
       subscription = Thunderer.subscription(:channel => channel)
-      content_tag "script", :type => "text/javascript" do
+      content_tag 'script', :type => 'text/javascript' do
         raw("Thunderer.sign(#{subscription.to_json});")
       end
     end

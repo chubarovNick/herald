@@ -4,8 +4,8 @@ require 'thunderer/controller_additions'
 module Thunderer
   class Engine < ::Rails::Engine
 
-    initializer "thunderer.config" do
-      path = Rails.root.join("config/thunderer.yml")
+    initializer 'thunderer.config' do
+      path = Rails.root.join('config/thunderer.yml')
       Thunderer.load_config(path, Rails.env) if path.exist?
     end
 
@@ -14,7 +14,7 @@ module Thunderer
           Gem.loaded_specs['faye'].full_gem_path, 'lib')
     end
 
-    initializer "thunderer.view_helpers" do
+    initializer 'thunderer.view_helpers' do
       ActionView::Base.send :include, ViewHelpers
     end
 
