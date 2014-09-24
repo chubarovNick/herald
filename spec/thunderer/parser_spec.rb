@@ -11,22 +11,22 @@ describe Thunderer::Parser do
     context 'when channel have no interpolation' do
       let(:channel) { 'without interpolation string' }
 
-      it { should == channel }
+      it { is_expected.to  eq(channel) }
     end
 
     context 'when channel have one interpolation sequence' do
       let(:channel) { '/hello/:first' }
 
-      it { should include('1') }
+      it { is_expected.to include('1') }
 
     end
 
     context 'when channel have two interpolations' do
       let(:channel) { '/hello/:first/world/:second' }
 
-      it { should include('1') }
+      it { is_expected.to include('1') }
 
-      it { should include('2') }
+      it { is_expected.to include('2') }
     end
 
 

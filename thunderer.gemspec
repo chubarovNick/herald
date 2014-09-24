@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'activesupport'
   spec.add_development_dependency 'rails'
-  spec.add_development_dependency 'rspec', '~> 2.14.1'
+  spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'jasmine'
 
   spec.files         = `git ls-files -z`.split("\x0")
