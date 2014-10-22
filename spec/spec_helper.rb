@@ -10,20 +10,34 @@ require 'bundler/setup'
 require 'support/matchers/have_filter'
 require 'json'
 require 'faye'
+require 'active_record'
 require 'support/controller_macros'
+require 'active_record/fixtures'
 Bundler.setup
 
 require 'thunderer'
 RSpec.configure do |config|
-  config.treat_symbols_as_metadata_keys_with_true_values = true
+  FIXTURES_PATH = File.join(File.dirname(__FILE__), 'fixtures')
+
+
+  ActiveRecord::Base.establish_connection(
+      adapter: 'sqlite3',
+      database: ':memory:'
+  )
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
-
+  config.raise_errors_for_deprecations!
   config.include ControllerMacros
 
-  # Run specs in random order to surface order dependencies. If you find an
-  # order dependency and want to debug it, you can fix the order by providing
-  # the seed, which is printed after each run.
-  #     --seed 1234
+  dep = defined?(ActiveSupport::Dependencies) ? ActiveSupport::Dependencies : ::Dependencies
+  dep.autoload_paths.unshift FIXTURES_PATH
+
+  ActiveRecord::Base.quietly do
+    ActiveRecord::Migration.verbose = false
+    load File.join(FIXTURES_PATH, 'schema.rb')
+  end
+
+  ActiveRecord::Fixtures.create_fixtures(FIXTURES_PATH, ActiveRecord::Base.connection.tables)
+
   config.order = 'random'
 end
