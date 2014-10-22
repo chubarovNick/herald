@@ -45,6 +45,16 @@ describe Thunderer do
 
       it { is_expected.not_to eq({}) }
 
+      context 'when config have local_server_url' do
+        let(:config_file_path) { 'spec/fixtures/thunderer_local_server.yml' }
+        let(:environment) { 'production' }
+
+        before { load_config }
+
+        it { is_expected.to include('uri'=>URI.parse('http://localhost:3000')) }
+
+      end
+
     end
 
   end

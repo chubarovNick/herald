@@ -22,7 +22,7 @@ module Thunderer
       config_yaml = YAML.load_file(filename)[environment]
       raise ArgumentError, "The #{environment} environment dose not exist" unless config_yaml
       config_yaml.each { |k,v| config[k.to_sym] = v }
-      Thunderer::Messanger.configure(config[:server])
+      Thunderer::Messanger.configure( config[:local_server_url] || config[:server])
       @messanger = Thunderer::Messanger
 
     end
