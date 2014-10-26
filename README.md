@@ -20,10 +20,65 @@ Or install it yourself as:
 
     $ gem install thunderer
 
-## Usage
+## Setup
+Run generator:
 
-TODO: Write usage instructions here
+      rails g thunderer:install
 
+It will generate thunderer.ru and thunderer.yml files. Check it and setup domain for production
+
+Next add the JavaScript file to your application.js file manifest.
+
+    //= require thunderer
+
+## Usage with typical rails app
+
+Use the `subscribe_to` helper method on any page to subscribe to a channel.
+
+```rhtml
+<%= subscribe_to "/comments" %>
+```
+
+Then setup active record models:
+
+```
+class Comment < ActiveRecord::Base
+  include Thunderer::PublishChanges
+  notify_client_to_channels '/comments/new'
+end
+```
+
+## Usage with Angular single page application
+
+Before start using with Angular add response interceptor (ThundererInterceptor) and service ($thunderer):
+
+    //= require thunderer_angular
+
+Inject `'Thunderer'` module to your app, and setup `$http` service
+
+```
+...
+provider.interceptors.push('ThundererInterceptor');
+...
+```
+
+The main deference of usage is adding special headers to json responses:
+
+```
+    class CommentsController < ApplicationController
+      include Thunderer::ControllerAdditions
+
+    end
+```
+
+After that you can subscribe in your angular controllers and directives to Faye callbacks
+
+```
+  commentAddOrChangedCallback = function(data) {
+    alert(data);
+  }
+  $thunderer.addListener("/comments", commentAddOrChangedCallback);
+```
 ## Contributing
 
 1. Fork it ( http://github.com/<my-github-username>/thunderer/fork )
