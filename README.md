@@ -68,6 +68,8 @@ The main deference of usage is adding special headers to json responses:
     class CommentsController < ApplicationController
       include Thunderer::ControllerAdditions
 
+      thunderer_channels '/comments'
+
     end
 ```
 
