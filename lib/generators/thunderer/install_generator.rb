@@ -13,6 +13,7 @@ module Thunderer
           copy_file '../../../../app/assets/javascripts/thunderer_subscription_service.js', 'public/javascripts/thunderer_subscription_service.js'
         end
         copy_file 'thunderer.ru', 'thunderer.ru'
+        copy_file 'thunderer.rb', 'app/config/initializers/thunderer.rb'
       end
     end
   end

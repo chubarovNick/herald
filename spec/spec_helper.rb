@@ -32,12 +32,10 @@ RSpec.configure do |config|
   dep = defined?(ActiveSupport::Dependencies) ? ActiveSupport::Dependencies : ::Dependencies
   dep.autoload_paths.unshift FIXTURES_PATH
 
-  ActiveRecord::Base.quietly do
-    ActiveRecord::Migration.verbose = false
-    load File.join(FIXTURES_PATH, 'schema.rb')
-  end
+  ActiveRecord::Migration.verbose = false
+  load File.join(FIXTURES_PATH, 'schema.rb')
 
-  ActiveRecord::Fixtures.create_fixtures(FIXTURES_PATH, ActiveRecord::Base.connection.tables)
+  ActiveRecord::FixtureSet.create_fixtures(FIXTURES_PATH, ActiveRecord::Base.connection.tables)
 
   config.order = 'random'
 end

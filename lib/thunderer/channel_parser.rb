@@ -1,5 +1,5 @@
 module Thunderer
-  module Parser
+  module ChannelParser
 
     class << self
       def interpolate_channel channel, object

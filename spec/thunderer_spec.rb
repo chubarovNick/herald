@@ -4,13 +4,18 @@ describe Thunderer do
   before { Thunderer.reset_config }
   let(:config_file_path) { 'spec/fixtures/thunderer.yml' }
   let(:environment) { 'production' }
-  let(:load_config) { Thunderer.load_config(config_file_path, environment) }
+  let(:load_config) do
+    Thunderer.configure do |config|
+      config.environment = environment
+      config.config_file_path = config_file_path
+    end
+  end
 
   describe 'default state' do
     describe '#config' do
       subject { Thunderer.config }
 
-      it { is_expected.to eq({}) }
+      it { is_expected.to be_a(Thunderer::Configuration)}
 
     end
   end
@@ -22,11 +27,19 @@ describe Thunderer do
     context 'when config environment was exists' do
       before { load_config }
 
-      it { is_expected.to include(:server => 'http://example.com/faye') }
+      {
+          server: 'http://example.com/faye',
+          secret_token: 'PRODUCTION_SECRET_TOKEN',
+          signature_expiration: 600
+      }.each do |method, value|
+        context "#config.#{method}" do
+          subject { Thunderer.config.send(method)}
 
-      it { is_expected.to include(:secret_token => 'PRODUCTION_SECRET_TOKEN') }
+          it { is_expected.to eq(value) }
 
-      it { is_expected.to include(:signature_expiration => 600) }
+        end
+      end
+
     end
 
     context 'when config environment was not exists' do
@@ -40,30 +53,13 @@ describe Thunderer do
 
     end
 
-    describe 'Thunderer::Messanger configuration' do
-      subject { Thunderer::Messanger.config }
-
-      it { is_expected.not_to eq({}) }
-
-      context 'when config have local_server_url' do
-        let(:config_file_path) { 'spec/fixtures/thunderer_local_server.yml' }
-        let(:environment) { 'production' }
-
-        before { load_config }
-
-        it { is_expected.to include('uri'=>URI.parse('http://localhost:3000')) }
-
-      end
-
-    end
-
   end
 
   describe '#subscription' do
     before { load_config }
     let!(:time_mock) { Time.now }
     before { allow(Time).to receive(:now) { time_mock } }
-    before { Thunderer.config[:server] = 'server' }
+    before { Thunderer.config.server = 'server' }
     subject { Thunderer.subscription }
 
     it { is_expected.to include(:timestamp => (time_mock.to_f * 1000).round) }
@@ -77,7 +73,7 @@ describe Thunderer do
     end
 
     describe 'signature' do
-      before { Thunderer.config[:secret_token] = 'token' }
+      before { Thunderer.config.secret_token = 'token' }
       subject { Thunderer.subscription(:timestamp => 123, :channel => 'channel') }
 
       it { is_expected.to include(:signature => Digest::SHA1.hexdigest('tokenchannel123')) }
@@ -91,7 +87,7 @@ describe Thunderer do
 
     describe 'formatting' do
       let(:secret_token) { 'token' }
-      before { Thunderer.config[:secret_token] = secret_token }
+      before { Thunderer.config.secret_token = secret_token }
 
       subject { Thunderer.message('chan', :foo => 'bar') }
 
@@ -116,7 +112,7 @@ describe Thunderer do
       before { load_config }
 
       specify do
-        expect(Thunderer::Messanger).to receive(:post)
+        expect_any_instance_of(Thunderer::Messages::Base).to receive(:deliver)
         subject
       end
     end
@@ -154,7 +150,7 @@ describe Thunderer do
 
   describe 'signature_expired?' do
     let(:expiration) { 30*60 }
-    before { Thunderer.config[:signature_expiration] = expiration }
+    before { Thunderer.config.signature_expiration = expiration }
     subject { Thunderer.signature_expired?(time) }
 
     context 'when time greater than expiration ' do

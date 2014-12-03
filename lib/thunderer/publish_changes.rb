@@ -19,7 +19,7 @@ module Thunderer
                            else
                              notification_message
                            end
-          Thunderer.publish_to Thunderer::Parser.interpolate_channel(channel, self), rooted_message
+          Thunderer.publish_to Thunderer::ChannelParser.interpolate_channel(channel, self), rooted_message
         end
       end
 

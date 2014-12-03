@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'ostruct'
 
-describe Thunderer::Parser do
+describe Thunderer::ChannelParser do
 
   let(:object) { OpenStruct.new(first: 1, second: 2) }
 
   describe '#interpolate_channel' do
-    subject { Thunderer::Parser.interpolate_channel(channel, object) }
+    subject { Thunderer::ChannelParser.interpolate_channel(channel, object) }
 
     context 'when channel have no interpolation' do
       let(:channel) { 'without interpolation string' }

@@ -20,6 +20,18 @@ Or install it yourself as:
 
     $ gem install thunderer
 
+## Rails 4.2 integration
+
+Now thunderer supports ActiveJob scheduling of notifications and can be configured by global setup of ActiveJob or
+in thunderer.rb
+
+    Thunderer.configure do |config|
+      config.queue_adapter = :sucker_punch
+      config.environment = Rails.env
+      config.config_file_path = 'config/thunderer.yml'
+     end
+
+
 ## Setup
 Run generator:
 

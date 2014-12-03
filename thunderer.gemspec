@@ -15,11 +15,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'faye'
 
-  spec.add_runtime_dependency 'activesupport'
-  spec.add_development_dependency 'rails'
-  spec.add_development_dependency 'rspec'
-  spec.add_development_dependency 'jasmine'
-  spec.add_development_dependency 'sqlite3'
+  spec.add_runtime_dependency 'activesupport', '4.2.0'
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }

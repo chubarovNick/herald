@@ -27,9 +27,9 @@ module Thunderer
 
     # Ensures the secret token is correct before publishing.
     def authenticate_publish(message)
-      if Thunderer.config[:secret_token].nil?
+      if Thunderer.config.secret_token.nil?
         raise Error, 'No secret_token config set, ensure thunderer.yml is loaded properly.'
-      elsif message['ext']['thunderer_secret_token'] != Thunderer.config[:secret_token]
+      elsif message['ext']['thunderer_secret_token'] != Thunderer.config.secret_token
 
         message['error'] = 'Incorrect token.'
       else

@@ -14,7 +14,7 @@ module Thunderer
           headers['channels'] = (self.class.channels || []).map do |channel|
           new_str = if self.class.interpolation_object && channel
                       object = send(self.class.interpolation_object)
-                      Thunderer::Parser.interpolate_channel channel, object
+                      Thunderer::ChannelParser.interpolate_channel channel, object
                     else
                       channel
                     end

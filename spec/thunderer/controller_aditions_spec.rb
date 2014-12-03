@@ -19,7 +19,12 @@ describe Thunderer::ControllerAdditions do
   describe '#thunderer_channels' do
     let(:config_file_path) { 'spec/fixtures/thunderer.yml' }
     let(:environment) { 'production' }
-    before { Thunderer.load_config(config_file_path, environment) }
+    before do
+      Thunderer.configure do |config|
+        config.environment = environment
+        config.config_file_path = config_file_path
+      end
+    end
 
     it 'should affect channels class variable' do
       controller_class.thunderer_channels('hello')
@@ -30,6 +35,7 @@ describe Thunderer::ControllerAdditions do
       controller_class.thunderer_channels(object: 'hello')
       expect(controller_class.interpolation_object).to include('hello')
     end
+
 
     it 'should setup before filter for setting headers' do
       expect(controller_class).to have_filters(:before, :add_channels_header)
