@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/thunderer.svg)](http://badge.fury.io/rb/thunderer)
 [![Build Status](https://travis-ci.org/chubarovNick/thunderer.svg?branch=master)](https://travis-ci.org/chubarovNick/thunderer)
 [![Code Climate](https://codeclimate.com/github/chubarovNick/thunderer/badges/gpa.svg)](https://codeclimate.com/github/chubarovNick/thunderer)
 [![Dependency Status](https://gemnasium.com/chubarovNick/thunderer.svg)](https://gemnasium.com/chubarovNick/thunderer)
