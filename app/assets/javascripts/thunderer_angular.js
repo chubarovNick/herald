@@ -16,7 +16,7 @@
            return response;
          },
          responseError: function (rejection) {
-           $q.reject(rejection);
+           return $q.reject(rejection);
          }
        };
 
