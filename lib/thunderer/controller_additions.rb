@@ -4,14 +4,14 @@ module Thunderer
     extend ActiveSupport::Concern
 
     included do
-      cattr_accessor :channels, :interpolation_object
+      cattr_accessor :_channels, :interpolation_object
 
       before_action :add_channels_header,only: [:index]
 
       private
 
       def add_channels_header
-          headers['channels'] = (self.class.channels || []).map do |channel|
+          headers['channels'] = (self.class._channels || []).map do |channel|
           new_str = if self.class.interpolation_object && channel
                       object = send(self.class.interpolation_object)
                       Thunderer::ChannelParser.interpolate_channel channel, object
@@ -29,7 +29,7 @@ module Thunderer
         options = args.extract_options!
         options.assert_valid_keys(:object)
         self.interpolation_object = options[:object]
-        self.channels             = Array.wrap(args)
+        self._channels             = Array.wrap(args)
       end
 
     end

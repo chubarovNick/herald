@@ -10,7 +10,6 @@ gem 'jasmine'
 group :development do
   gem 'guard-rspec', require: false
   gem 'guard-jasmine'
-  gem 'rsense'
   gem 'sucker_punch'
 end
 

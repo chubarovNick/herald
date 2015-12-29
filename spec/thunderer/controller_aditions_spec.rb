@@ -28,7 +28,7 @@ describe Thunderer::ControllerAdditions do
 
     it 'should affect channels class variable' do
       controller_class.thunderer_channels('hello')
-      expect(controller_class.channels).to include('hello')
+      expect(controller_class._channels).to include('hello')
     end
 
     it 'should affect interpolation_object of class' do
