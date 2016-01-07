@@ -4,9 +4,11 @@ describe Thunderer do
   before { Thunderer.reset_config }
   let(:config_file_path) { 'spec/fixtures/thunderer.yml' }
   let(:environment) { 'production' }
+  let(:async) {false}
   let(:load_config) do
     Thunderer.configure do |config|
       config.environment = environment
+      config.async = async
       config.config_file_path = config_file_path
     end
   end
@@ -109,11 +111,31 @@ describe Thunderer do
     subject { Thunderer.publish_message(message) }
 
     context 'when config are loaded' do
-      before { load_config }
+      context 'when config with async false' do
+        before { load_config }
 
-      specify do
-        expect_any_instance_of(Thunderer::Messages::Base).to receive(:deliver)
-        subject
+        before do
+          expect_any_instance_of(Thunderer::Messages::Base).to receive(:deliver)
+        end
+
+        specify do
+          subject
+        end
+      end
+
+      context 'when config with async parameter' do
+        let(:async) { true}
+        before { load_config }
+
+        before do
+          expect_any_instance_of(Thunderer::Messages::AsyncMessage).to receive(:deliver).and_call_original
+          expect(Thunderer::Messages::AsyncMessage::Job).to receive(:perform_later).with(message) {true}
+        end
+
+        specify do
+          subject
+        end
+
       end
     end
 

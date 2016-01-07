@@ -34,9 +34,9 @@ module Thunderer
     def publish_message(message)
       raise Error, 'No server specified, ensure thunderer.yml was loaded properly.' unless config.server
       if config.async
-        Thunderer::Messages::Base.new(message)
-      else
         Thunderer::Messages::AsyncMessage.new(message)
+      else
+        Thunderer::Messages::Base.new(message)
       end.deliver
     end
 
